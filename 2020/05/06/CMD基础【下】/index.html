@@ -1,0 +1,351 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>CMD基础【下】 | 酷盖实验室</title><meta name="description" content="网络调试命令之ipconfig命令 Ipconfig在windows系统里是一个非常重要的命令，他主要的作用就是查看IP地址，配合IP地址等等。这个命令是混迹网络必备的一个命令。 在linux系统里也有这样的命令只不过写法不一样linux系统是ifconfig（在linux文章中会详细讲解）。 使用ipconfig &#x2F;?可以查看ipconfig的主要帮助信息，自行尝试，本文章仅讲解主要内容。"><meta name="keywords" content="cmd"><meta name="author" content="Blosslom&amp;文韬菌,1215057638@qq.com"><meta name="copyright" content="Blosslom&amp;文韬菌"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.png"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="dns-prefetch" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="https://hm.baidu.com"/><link rel="dns-prefetch" href="https://hm.baidu.com"/><link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="crossorigin"/><link rel="dns-prefetch" href="https://fonts.googleapis.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="dns-prefetch" href="//busuanzi.ibruce.info"/><meta name="twitter:card" content="summary"><meta name="twitter:title" content="CMD基础【下】"><meta name="twitter:description" content="网络调试命令之ipconfig命令 Ipconfig在windows系统里是一个非常重要的命令，他主要的作用就是查看IP地址，配合IP地址等等。这个命令是混迹网络必备的一个命令。 在linux系统里也有这样的命令只不过写法不一样linux系统是ifconfig（在linux文章中会详细讲解）。 使用ipconfig &#x2F;?可以查看ipconfig的主要帮助信息，自行尝试，本文章仅讲解主要内容。"><meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/Blosslom1/img@master/cmd/3/head.jpg"><meta property="og:type" content="article"><meta property="og:title" content="CMD基础【下】"><meta property="og:url" content="https://blosslom1.github.io/2020/05/06/CMD%E5%9F%BA%E7%A1%80%E3%80%90%E4%B8%8B%E3%80%91/"><meta property="og:site_name" content="酷盖实验室"><meta property="og:description" content="网络调试命令之ipconfig命令 Ipconfig在windows系统里是一个非常重要的命令，他主要的作用就是查看IP地址，配合IP地址等等。这个命令是混迹网络必备的一个命令。 在linux系统里也有这样的命令只不过写法不一样linux系统是ifconfig（在linux文章中会详细讲解）。 使用ipconfig &#x2F;?可以查看ipconfig的主要帮助信息，自行尝试，本文章仅讲解主要内容。"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/Blosslom1/img@master/cmd/3/head.jpg"><meta property="article:published_time" content="2020-05-06T10:30:50.000Z"><meta property="article:modified_time" content="2020-05-14T11:04:17.677Z"><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><script>var autoChangeMode = '1'
+var t = Cookies.get("theme")
+if (autoChangeMode == '1'){
+  var isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+  var isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches
+  var isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined){
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport){
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour < 9 || hour >= 14
+      isNight ? activateDarkMode() : activateLightMode()
+  }
+  } else if (t == 'light') activateLightMode()
+  else activateDarkMode()
+
+} else if (autoChangeMode == '2'){
+  now = new Date();
+  hour = now.getHours();
+  isNight = hour < 6 || hour >= 18
+  if(t === undefined) isNight? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode() 
+} else {
+  if ( t == 'dark' ) activateDarkMode()
+  else if ( t == 'light') activateLightMode()
+}
+
+function activateDarkMode(){
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+    document.querySelector('meta[name="theme-color"]').setAttribute('content','#000')
+  }
+}
+function activateLightMode(){
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+  document.querySelector('meta[name="theme-color"]').setAttribute('content','#fff')
+  }
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="canonical" href="https://blosslom1.github.io/2020/05/06/CMD%E5%9F%BA%E7%A1%80%E3%80%90%E4%B8%8B%E3%80%91/"><link rel="prev" title="ARP攻防基础" href="https://blosslom1.github.io/2020/05/10/ARP%E6%94%BB%E9%98%B2%E5%9F%BA%E7%A1%80/"><link rel="next" title="CMD基础【中】" href="https://blosslom1.github.io/2020/05/05/CMD%E5%9F%BA%E7%A1%80%E3%80%90%E4%B8%AD%E3%80%91/"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?563f0966f2e6b9657febdcd266f82b0c";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容:${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"cookieDomain":"https://xxx/","msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: true,
+  copyright: undefined,
+  ClickShowText: {"text":"富強,民主,文明,和諧,自由,平等,公正,法治,愛國,敬業,誠信,友善","fontSize":"15px"},
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  baiduPush: false,
+  highlightCopy: true,
+  highlightLang: true,
+  highlightShrink: 'false',
+  isFontAwesomeV5: false,
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: true
+  
+}</script><script>var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isSidebar: true  
+  }</script><noscript><style>
+#page-header {
+  opacity: 1
+}
+.justified-gallery img{
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 4.2.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/head.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">8</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">6</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">5</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page"><i class="fa-fw fa fa-list" aria-hidden="true"></i><span> 其他</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page" href="/movie/"><i class="fa-fw fa fa-film"></i><span> 视频</span></a></li></ul></div></div></div></div><i class="fa fa-arrow-right on" id="toggle-sidebar" aria-hidden="true">     </i><div id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#网络调试命令之ipconfig命令"><span class="toc-number">1.</span> <span class="toc-text"> 网络调试命令之ipconfig命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ipconfig"><span class="toc-number">1.0.1.</span> <span class="toc-text"> Ipconfig</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ipconfig-release"><span class="toc-number">1.0.2.</span> <span class="toc-text"> Ipconfig &#x2F;release</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ipconfig-renew"><span class="toc-number">1.0.3.</span> <span class="toc-text"> Ipconfig &#x2F;renew</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ipconfig-displaydns"><span class="toc-number">1.0.4.</span> <span class="toc-text"> ipconfig &#x2F;displaydns</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ipconfig-flushdns"><span class="toc-number">1.0.5.</span> <span class="toc-text"> Ipconfig &#x2F;flushdns</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#任务管理命令"><span class="toc-number">2.</span> <span class="toc-text"> 任务管理命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#taskmgr"><span class="toc-number">2.0.1.</span> <span class="toc-text"> Taskmgr</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tasklist"><span class="toc-number">2.0.2.</span> <span class="toc-text"> Tasklist</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#taskkill"><span class="toc-number">2.0.3.</span> <span class="toc-text"> Taskkill</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#注册表增删改查"><span class="toc-number">3.</span> <span class="toc-text"> 注册表增删改查</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#查询"><span class="toc-number">3.0.1.</span> <span class="toc-text"> 查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#增加"><span class="toc-number">3.0.2.</span> <span class="toc-text"> 增加</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除"><span class="toc-number">3.0.3.</span> <span class="toc-text"> 删除</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#导入导出"><span class="toc-number">3.0.4.</span> <span class="toc-text"> 导入导出</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#计划任务与时间"><span class="toc-number">4.</span> <span class="toc-text"> 计划任务与时间</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#schtasks"><span class="toc-number">4.0.1.</span> <span class="toc-text"> Schtasks</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#schtasks-create"><span class="toc-number">4.0.2.</span> <span class="toc-text"> Schtasks &#x2F;create</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#schtasks-query"><span class="toc-number">4.0.3.</span> <span class="toc-text"> Schtasks &#x2F;query</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#schtasks-delete"><span class="toc-number">4.0.4.</span> <span class="toc-text"> Schtasks &#x2F;delete</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#time"><span class="toc-number">4.0.5.</span> <span class="toc-text"> Time</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#shutdown"><span class="toc-number">4.0.6.</span> <span class="toc-text"> Shutdown</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#hostname"><span class="toc-number">4.0.7.</span> <span class="toc-text"> Hostname</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#control"><span class="toc-number">4.0.8.</span> <span class="toc-text"> Control</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#defrag"><span class="toc-number">4.0.9.</span> <span class="toc-text"> Defrag</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#attrib"><span class="toc-number">4.0.10.</span> <span class="toc-text"> Attrib</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#compmgmt"><span class="toc-number">4.0.11.</span> <span class="toc-text"> Compmgmt</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#psr"><span class="toc-number">4.0.12.</span> <span class="toc-text"> Psr</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#osk"><span class="toc-number">4.0.13.</span> <span class="toc-text"> Osk</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#snippingtool"><span class="toc-number">4.0.14.</span> <span class="toc-text"> Snippingtool</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#进阶篇衔接"><span class="toc-number">5.</span> <span class="toc-text"> 进阶篇衔接</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#net命令"><span class="toc-number">5.0.1.</span> <span class="toc-text"> Net命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#netsh命令"><span class="toc-number">5.0.2.</span> <span class="toc-text"> Netsh命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#磁盘操作命令"><span class="toc-number">5.0.3.</span> <span class="toc-text"> 磁盘操作命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#powershell"><span class="toc-number">5.0.4.</span> <span class="toc-text"> Powershell</span></a></li></ol></li></ol></li></ol></div></div></div><div id="body-wrap"><div id="web_bg" data-type="color"></div><div class="post-bg" id="nav" style="background-image: url(https://cdn.jsdelivr.net/gh/Blosslom1/img@master/cmd/3/head.jpg)"><div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">酷盖实验室</a></span><span class="pull_right menus"><div id="search_button"><a class="site-page social-icon search"><i class="fa fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page"><i class="fa-fw fa fa-list" aria-hidden="true"></i><span> 其他</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page" href="/movie/"><i class="fa-fw fa fa-film"></i><span> 视频</span></a></li></ul></div></div><span class="toggle-menu close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span></span></div><div id="post-info"><div id="post-title"><div class="posttitle">CMD基础【下】</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date"><span class="post-meta__date-created" title="发表于 2020-05-06 18:30:50"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2020-05-06</span><span class="post-meta__separator">|</span><span class="post-meta__date-updated" title="更新于 2020-05-14 19:04:17"><i class="fa fa-history" aria-hidden="true"></i> 更新于 2020-05-14</span></time><span class="post-meta__categories"><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">计算机</a></span></div><div class="meta-secondline"> <span class="post-meta-wordcount"><i class="post-meta__icon fa fa-file-word-o" aria-hidden="true"></i><span>字数总计:</span><span class="word-count">3.1k</span><span class="post-meta__separator">|</span><i class="post-meta__icon fa fa-clock-o" aria-hidden="true"></i><span>阅读时长: 9 分钟</span></span></div><div class="meta-thirdline"><span class="post-meta-pv-cv"><span class="post-meta__separator">|</span><i class="fa fa-eye post-meta__icon" aria-hidden="true"> </i><span>阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-commentcount"><span class="post-meta__separator">|</span><i class="post-meta__icon fa fa-comment-o" aria-hidden="true"></i><span>评论数:</span><a href="/2020/05/06/CMD%E5%9F%BA%E7%A1%80%E3%80%90%E4%B8%8B%E3%80%91/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count comment-count" data-xid="/2020/05/06/CMD%E5%9F%BA%E7%A1%80%E3%80%90%E4%B8%8B%E3%80%91/" itemprop="commentCount"></span></a></span></div></div></div></div><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><h1 id="网络调试命令之ipconfig命令"><a class="markdownIt-Anchor" href="#网络调试命令之ipconfig命令"></a> 网络调试命令之ipconfig命令</h1>
+<p>Ipconfig在windows系统里是一个非常重要的命令，他主要的作用就是查看IP地址，配合IP地址等等。这个命令是混迹网络必备的一个命令。</p>
+<p>在linux系统里也有这样的命令只不过写法不一样linux系统是ifconfig（在linux文章中会详细讲解）。</p>
+<p>使用ipconfig /?可以查看ipconfig的主要帮助信息，自行尝试，本文章仅讲解主要内容。</p>
+<h3 id="ipconfig"><a class="markdownIt-Anchor" href="#ipconfig"></a> Ipconfig</h3>
+<p>在命令行中输入ipconfig查看基本信息：</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQ172F.jpg" alt="YQ172F.jpg" /></p>
+<p>图中显示出来了两个网卡信息（内容比较多不方便全部展示），跳过第一块网卡。</p>
+<p>本地链接 IPv6 地址. . . . . . . . : fe80::ccff:4ca7:4e24:fbb1%25èipv6地址应用并不广泛，但是他可以为地球每一颗沙子分配一个地址未来广泛应用。</p>
+<p>IPv4 地址 . . . . . . . . . . . . : 192.168.78.1èipv4地址，目前正在应用的IP地址，从结尾是1很容易判断这是一个网关地址。</p>
+<p>子网掩码 . . . . . . . . . . . . : 255.255.255.0è子网掩码，用来识别IP地址的网段码和机器码，255代表网段，0代表机器192.168.78对应225.225.225所以这一段是代表网段1对应0代表机器号。</p>
+<h3 id="ipconfig-release"><a class="markdownIt-Anchor" href="#ipconfig-release"></a> Ipconfig /release</h3>
+<p>断开网络配置</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQ1T8U.jpg" alt="YQ1T8U.jpg" /></p>
+<p>因为我没有有线连接，使用的是WLAN所以断开了WLAN的网络配置，这时候是无法上网的(如下图)，需要重新获得IP地址。</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQ14U0.jpg" alt="YQ14U0.jpg" /></p>
+<h3 id="ipconfig-renew"><a class="markdownIt-Anchor" href="#ipconfig-renew"></a> Ipconfig /renew</h3>
+<p>获取新的IP配置</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQ1oCT.jpg" alt="YQ1oCT.jpg" /></p>
+<p>同理有线网络无法配置</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQ155V.jpg" alt="YQ155V.jpg" /></p>
+<p>有线网络已经获得了IP配置。</p>
+<h3 id="ipconfig-displaydns"><a class="markdownIt-Anchor" href="#ipconfig-displaydns"></a> ipconfig /displaydns</h3>
+<p>展示dns解析的信息</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQ1Hv4.jpg" alt="YQ1Hv4.jpg" /></p>
+<p>我们访问过的域名会进行解析，解析的结果有cname记录A主机记录等等，这个在渗透测试的收集目标信息时有作用。</p>
+<h3 id="ipconfig-flushdns"><a class="markdownIt-Anchor" href="#ipconfig-flushdns"></a> Ipconfig /flushdns</h3>
+<p>清除dns记录</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQ1qKJ.jpg" alt="YQ1qKJ.jpg" /></p>
+<p>如图所示，使用ipconfig /flushdns后再使用ipcofnig /displaydns已经无内容可显示。</p>
+<p>Ipconfig基础部分介绍到此，里面还有大量内容，篇幅过长后期的进阶文章可能涉及到，以上内容就是最常使用的，入坑需要牢记。</p>
+<h1 id="任务管理命令"><a class="markdownIt-Anchor" href="#任务管理命令"></a> 任务管理命令</h1>
+<p>和任务管理的命令主要有三个，taskmgr，tasklist，taskkill。其中taskmgr就是我们平时使用的任务管理器，tasklist和taskkill配合在命令行使用。</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQ8mwR.jpg" alt="YQ8mwR.jpg" /></p>
+<h3 id="taskmgr"><a class="markdownIt-Anchor" href="#taskmgr"></a> Taskmgr</h3>
+<p>在命令行中输入taskmgr可以直接打开任务管理器。</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQ8em9.jpg" alt="YQ8em9.jpg" /></p>
+<h3 id="tasklist"><a class="markdownIt-Anchor" href="#tasklist"></a> Tasklist</h3>
+<p>使用tasklist可以列出系统正在运行的命令，这个列出的内容比较多，需要配合find命令可以进行查看。</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQ8VOJ.jpg" alt="YQ8VOJ.jpg" /></p>
+<p>比如我需要找到谷歌浏览器程序的运行可以使用语法：</p>
+<p>Tasklist | find “chrome”</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQ8AlF.jpg" alt="YQ8AlF.jpg" /></p>
+<p>图片中的内容就是所有和chrome有关的进程，第一列表示进程名，第二列表示进程的PID，前面netstat也讲过这个PID下一个命令就会用到。第三列是会话名，第四列是会话，第五列是内存使用情况。</p>
+<p>Tasklist还有一些其他参数，所有的命令并不像表面上那么简单，深入的使用方法会在进阶部分讲解，学习是一个螺旋上升的过程，一次性不可能学会太多的内容。</p>
+<h3 id="taskkill"><a class="markdownIt-Anchor" href="#taskkill"></a> Taskkill</h3>
+<p>使用这个命令可以杀死正在运行的系统进程。</p>
+<p>这个命令不能随意使用，错误结束掉一些进程会造成系统崩溃，通常的表现就是蓝屏。（结束svchost.exe这个程序会造成蓝屏）</p>
+<p>使用进程名结束运行程序：</p>
+<p>Taskkill -f -im 进程名</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQ8Ey4.jpg" alt="YQ8Ey4.jpg" /></p>
+<p>-f参数的意思是强行终止进程，-im后面跟的是程序名称（注意必须写完整的程序名称后缀也要加上）</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQ8Ymd.jpg" alt="YQ8Ymd.jpg" /></p>
+<p>再次寻找程序中运行的chrome已经没有该进程了。</p>
+<p>使用程序PID结束进程：</p>
+<p>Taskkill -f -PID 进程PID</p>
+<p>首先打开chrome</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQ8t0A.jpg" alt="YQ8t0A.jpg" /></p>
+<p>有这么多PID该结束哪一个呢？一般来说随便哪一个都行，其余的也会跟着一起结束。</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQ8GOH.jpg" alt="YQ8GOH.jpg" /></p>
+<p>-f强行终止 -PID后面跟程序PID号</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQ886e.jpg" alt="YQ886e.jpg" /></p>
+<p>再次查找已经没有chrome进程。</p>
+<p>有关任务管理的文章基础部分到此结束，以上所有介绍的都不只是简简单单表面的内容，大量的用法着大家去探索去实践，实践是检验真理的唯一标准。</p>
+<h1 id="注册表增删改查"><a class="markdownIt-Anchor" href="#注册表增删改查"></a> 注册表增删改查</h1>
+<p>注册表是一个十分复杂的东西，他是windows系统必带的，系统中所有数据都记录到了注册表中，例如开机的动画路径等</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQGmjg.jpg" alt="YQGmjg.jpg" /></p>
+<p>注册表界面打开方式：</p>
+<p>Ctrl+r打开运行</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQGZ38.jpg" alt="YQGZ38.jpg" /></p>
+<p>输入regedit回车即可打开</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQGA4P.jpg" alt="YQGA4P.jpg" /></p>
+<p>上面是注册表的管理界面，可以通过这个界面做一些配置的更改，这篇文章不会讲解注册表，主要讲解如何使用批处理操纵注册表。</p>
+<h3 id="查询"><a class="markdownIt-Anchor" href="#查询"></a> 查询</h3>
+<p>查询主要是查询注册表中的键值等信息语法如下：</p>
+<p>Reg query 路径 /v 键值名 /f 字符</p>
+<p>/v是通过键值名来查看键值的</p>
+<p>/f 可以通过键值来查找是否存在这个键值名</p>
+<p>分别举例：</p>
+<p>reg query HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run /v Wechat</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQGV9f.jpg" alt="YQGV9f.jpg" /></p>
+<p>查看了开机启动目录的Wechat参数是否有值，结果可以看到有路径F:\微信\WeChat\WeChat.exe -autorun，再到注册表中确认发现确实存在，命令成立。</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQGegS.jpg" alt="YQGegS.jpg" /></p>
+<p>如果键值名输入错误什么都查询不到，并且打印出错误: 系统找不到指定的注册表项或值。</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQGaDJ.jpg" alt="YQGaDJ.jpg" /></p>
+<p>reg query HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run /f “F:\微信\WeChat”</p>
+<p>反过来使用键值中的部分内容（注意必须使用引号括起来）查询是否存在</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQGdb9.jpg" alt="YQGdb9.jpg" /></p>
+<p>存在则输入以上内容，键值名，格式，内容都会详细输出。不存在会输出：搜索结束: 找到 0 匹配。</p>
+<h3 id="增加"><a class="markdownIt-Anchor" href="#增加"></a> 增加</h3>
+<p>增加可以对注册表添加内容通过键值名和键值的方式语法如下</p>
+<p>Reg add 路径 /v 键值名 /t 类型 /d 键值</p>
+<p>注意上面的语法顺序不能错</p>
+<p>类型有七种</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQGUu4.jpg" alt="YQGUu4.jpg" /></p>
+<p>REG_SZ</p>
+<p>REG_MULTI_SZ</p>
+<p>REG_EXPAND_SZ</p>
+<p>REG_DWORD</p>
+<p>REG_QWORD</p>
+<p>REG_BINARY</p>
+<p>REG_NONE</p>
+<p>具体的作用在进阶篇讲解</p>
+<p>reg add HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run /v cmd /t REG_SZ /d “C:\Windows\System32\cmd.exe”</p>
+<p>在开启动文件夹中加入了启动cmd程序</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQGYgU.jpg" alt="YQGYgU.jpg" /></p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQGtvF.jpg" alt="YQGtvF.jpg" /></p>
+<p>重新打开注册表，发现已经添加了这个键值</p>
+<h3 id="删除"><a class="markdownIt-Anchor" href="#删除"></a> 删除</h3>
+<p>删掉注册表中的键</p>
+<p>Reg delete 路径 /v 键值名 /f</p>
+<p>/f的作用是不提示删除</p>
+<p>reg delete HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run\shit /v cmd /f</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQG0ER.jpg" alt="YQG0ER.jpg" /></p>
+<p>删除成功，这个显示成功了一般就已经删除了，缩短篇幅不再去复查。</p>
+<p>改键值思路可以根据增加键值，使用相同的键值名更改键值。</p>
+<h3 id="导入导出"><a class="markdownIt-Anchor" href="#导入导出"></a> 导入导出</h3>
+<p>Reg export 路径 保存路径</p>
+<p>Reg import 文件路径</p>
+<p>保存注册表，尤其是自启目录的注册表，有时可以防范恶意软件的开机自启。</p>
+<h1 id="计划任务与时间"><a class="markdownIt-Anchor" href="#计划任务与时间"></a> 计划任务与时间</h1>
+<p>计划任务是一个十分实用的内容，他可以帮我们计划执行相应的程序及文件，当我们不在电脑前时，可以设定计划任务帮助完成工作。</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YlA1i9.jpg" alt="YlA1i9.jpg" /></p>
+<h3 id="schtasks"><a class="markdownIt-Anchor" href="#schtasks"></a> Schtasks</h3>
+<p>我高中学计划任务时还是使用at，如今at已经被废弃改用schtasks了，因为长时间没有研究过bat所以这个命令也是临时学习的。</p>
+<p>在命令行中输入schtasks /? 可以查看具体的分类用法，分类中还需要使用单个的查看帮助方法例如：schtasks /create /?</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YlEnSI.jpg" alt="YlEnSI.jpg" /></p>
+<p>内容还是比较多的，初学主要掌握create query delete部分内容就可以了</p>
+<h3 id="schtasks-create"><a class="markdownIt-Anchor" href="#schtasks-create"></a> Schtasks /create</h3>
+<p>使用这个命令来创建一个任务，掌握四个参数就可以在本地进行创建计划任务了。</p>
+<p>举栗:</p>
+<p>schtasks /create /tn cmd /st 16:51 /tr C:\windows\system32\cmd.exe /sc once</p>
+<p>/tn参数后面跟的是设定的任务名（自己定义后面可用于查看）</p>
+<p>/st参数后面跟时间</p>
+<p>/tr参数后面跟运行程序的路径（路径不要填错不让无法运行）</p>
+<p>/sc参数后面跟执行频率（once必须要/st参数连用）</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YlEZYd.jpg" alt="YlEZYd.jpg" /></p>
+<p>执行成功后就会在17：01运行cmd</p>
+<h3 id="schtasks-query"><a class="markdownIt-Anchor" href="#schtasks-query"></a> Schtasks /query</h3>
+<p>查询我们创建的任务</p>
+<p>Schtasks /query 可以直接进行查询输出的内容比较多，但是我们设定的任务一般在第一table里</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YlEefA.jpg" alt="YlEefA.jpg" /></p>
+<p>可以看到我们之前设置的cmd任务在第四个，因为我时间已经过了没有显示具体时间，第一个第二个都是Adobe自动设置的更新日期。</p>
+<p>/tn参数后面跟之前设置的任务名称</p>
+<p>/fo参数后面跟输出的格式如：table，list，scv（table是默认格式）</p>
+<p>schtasks /query /tn cmd /fo list</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YlEVFH.jpg" alt="YlEVFH.jpg" /></p>
+<p>以列表格式查询任务</p>
+<h3 id="schtasks-delete"><a class="markdownIt-Anchor" href="#schtasks-delete"></a> Schtasks /delete</h3>
+<p>删除任务</p>
+<p>Schtask /delete /tn cmd /f</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YlEATe.jpg" alt="YlEATe.jpg" /></p>
+<p>/tn参数跟任务名</p>
+<p>/f参数是不用提示是否删除</p>
+<p>再去query一下看结果：</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YlEa60.jpg" alt="YlEa60.jpg" /></p>
+<p>可以看到已经没有了。</p>
+<h3 id="time"><a class="markdownIt-Anchor" href="#time"></a> Time</h3>
+<p>更改时间设置</p>
+<p>直接在命令个行里输入time会提示更改时间，按照上面的格式输入时间就可以进行更改</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YlEUlq.jpg" alt="YlEUlq.jpg" /></p>
+<p>其他命令整合</p>
+<h3 id="shutdown"><a class="markdownIt-Anchor" href="#shutdown"></a> Shutdown</h3>
+<p><img src="https://s1.ax1x.com/2020/05/09/YlEq1I.jpg" alt="YlEq1I.jpg" /></p>
+<p>电脑关机重启命令，使用参数代表关机/重启</p>
+<p>/s 关机命令执行默认一分钟关机</p>
+<p>/r 重启命令执行默认一分钟重启</p>
+<p>/t 设置关机/重启时间，以秒为单位</p>
+<p>/a 取消关机/重启命令</p>
+<p>/c “关机时显示的内容”</p>
+<h3 id="hostname"><a class="markdownIt-Anchor" href="#hostname"></a> Hostname</h3>
+<p>显示主机名</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YlEb9A.jpg" alt="YlEb9A.jpg" /><br />
+!</p>
+<h3 id="control"><a class="markdownIt-Anchor" href="#control"></a> Control</h3>
+<p>打开控制面板</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YlEOjP.jpg" alt="YlEOjP.jpg" /><br />
+!</p>
+<h3 id="defrag"><a class="markdownIt-Anchor" href="#defrag"></a> Defrag</h3>
+<p>磁盘碎片整理，定时整理有利于磁盘的充分使用。</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YlE7hd.jpg" alt="YlE7hd.jpg" /></p>
+<p>Defrag -A 盘符: 查看该盘的状况</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YlELct.jpg" alt="YlELct.jpg" /></p>
+<p>Defrag -x 盘符: 对碎片进行整理</p>
+<h3 id="attrib"><a class="markdownIt-Anchor" href="#attrib"></a> Attrib</h3>
+<p>文件/文件夹属性操作</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YlVP9s.jpg" alt="YlVP9s.jpg" /></p>
+<p>+代表加上属性-代表减去属性</p>
+<p>H是隐藏r是只读</p>
+<h3 id="compmgmt"><a class="markdownIt-Anchor" href="#compmgmt"></a> Compmgmt</h3>
+<p>计算机管理工具</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YlVi3n.jpg" alt="YlVi3n.jpg" /></p>
+<p>上图这个工具可以对磁盘进行分区</p>
+<h3 id="psr"><a class="markdownIt-Anchor" href="#psr"></a> Psr</h3>
+<p>步骤记录工具</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YlVpNQ.jpg" alt="YlVpNQ.jpg" /></p>
+<p>步骤记录工具可以详细列出你对电脑的操作，当你对他人远程进行演示电脑操作时可以将操作进行记录，步骤记录器会生成一个文档，文档是记录的详细信息。</p>
+<h3 id="osk"><a class="markdownIt-Anchor" href="#osk"></a> Osk</h3>
+<p>屏幕键盘</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YlV9hj.jpg" alt="YlV9hj.jpg" /></p>
+<h3 id="snippingtool"><a class="markdownIt-Anchor" href="#snippingtool"></a> Snippingtool</h3>
+<p>自带的截图工具</p>
+<p>电脑自带的截图工具是非常使用的，他比我们使用的qq，微信截图工具都更加精确，在python开发的图像中有体现，因为使用软件的截图无效。</p>
+<p>上面的命令工具都是一些比较实用的小工具，不管是工作还是平时使用都对使用windows系统有帮助。不要小看windows自带的小工具，因为系统自带所以性能方面比其他的外加程序都要好。时</p>
+<h1 id="进阶篇衔接"><a class="markdownIt-Anchor" href="#进阶篇衔接"></a> 进阶篇衔接</h1>
+<p>到目前为止基础篇的文章大部分已经讲完了，之前介绍到的批处理文章仅仅是批处理的冰山一角，不过基础篇的内容已经足够我们在别人面前装逼了。这篇文章主要是对进阶篇文章进行衔接，因为基础篇和接下来的内容难度/自由度相比简直不可一提。</p>
+<p>进阶篇大部分的内容都是进行编写脚本了，前期会介绍一些比较难的命令内容</p>
+<h3 id="net命令"><a class="markdownIt-Anchor" href="#net命令"></a> Net命令</h3>
+<p>进行网络配置，服务配置的内容。</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YlVyb8.jpg" alt="YlVyb8.jpg" /></p>
+<h3 id="netsh命令"><a class="markdownIt-Anchor" href="#netsh命令"></a> Netsh命令</h3>
+<p>也是关于网络的命令</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YlVgUg.jpg" alt="YlVgUg.jpg" /></p>
+<h3 id="磁盘操作命令"><a class="markdownIt-Anchor" href="#磁盘操作命令"></a> 磁盘操作命令</h3>
+<p>例如:checkdisc</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YlVcVS.jpg" alt="YlVcVS.jpg" /></p>
+<h3 id="powershell"><a class="markdownIt-Anchor" href="#powershell"></a> Powershell</h3>
+<p><img src="https://s1.ax1x.com/2020/05/09/YlVsDf.jpg" alt="YlVsDf.jpg" /></p>
+<p>除了上面的命令还有基础篇命令的深层次用法</p>
+<p>后期会使用编程，写一些数学题目的算法（其实bat不适合写）主要是为了加深理解语言培养语感。</p>
+<p>批处理很多人都认为不算一门语言，那也只是小部分人，他们只了解了一些皮毛，我看来批处理和linux中的shell一样，掌握没有难度，学会不比那些高级语言简单。</p>
+<p>每样东西都有它存在的价值，我们不能使用自己的眼光去评判一个东西的价值，我们只能通过自己的努力去实现他的价值（一波鸡汤）</p>
+<p>批处理基础篇到此结束</p>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:1215057638@qq.com">Blosslom&amp;文韬菌</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://blosslom1.github.io/2020/05/06/CMD%E5%9F%BA%E7%A1%80%E3%80%90%E4%B8%8B%E3%80%91/">https://blosslom1.github.io/2020/05/06/CMD%E5%9F%BA%E7%A1%80%E3%80%90%E4%B8%8B%E3%80%91/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://blosslom1.github.io" target="_blank">酷盖实验室</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/cmd/">cmd</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/Blosslom1/img@master/electrician/head.png" data-sites="facebook,twitter,wechat,weibo,qq,qzone"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"/><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script></div></div><div class="post-reward"><a class="reward-button button--primary button--animated"> <i class="fa fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><img class="post-qr-code__img" src="/img/wechat.jpg" alt="微信"/><div class="post-qr-code__desc">微信</div></li><li class="reward-item"><img class="post-qr-code__img" src="/img/alipay.jpg" alt="支付宝"/><div class="post-qr-code__desc">支付宝</div></li></ul></div></a></div><nav class="pagination_post" id="pagination"><div class="prev-post pull_left"><a href="/2020/05/10/ARP%E6%94%BB%E9%98%B2%E5%9F%BA%E7%A1%80/"><img class="prev_cover" src="https://cdn.jsdelivr.net/gh/Blosslom1/img@master/ARP/head.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">ARP攻防基础</div></div></a></div><div class="next-post pull_right"><a href="/2020/05/05/CMD%E5%9F%BA%E7%A1%80%E3%80%90%E4%B8%AD%E3%80%91/"><img class="next_cover" src="https://cdn.jsdelivr.net/gh/Blosslom1/img@master/cmd/2/head.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">CMD基础【中】</div></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fa fa-fw fa-thumbs-up" aria-hidden="true"></i><span> 相关推荐</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/2020/05/05/CMD基础【中】/" title="CMD基础【中】"><img class="relatedPosts_cover" src="https://cdn.jsdelivr.net/gh/Blosslom1/img@master/cmd/2/head.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-05-05</div><div class="relatedPosts_title">CMD基础【中】</div></div></a></div><div class="relatedPosts_item"><a href="/2020/05/03/CMD基础【上】/" title="CMD基础【上】"><img class="relatedPosts_cover" src="https://cdn.jsdelivr.net/gh/Blosslom1/img@master/cmd/1/head.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-05-03</div><div class="relatedPosts_title">CMD基础【上】</div></div></a></div></div><div class="clear_both"></div></div><hr><div id="post-comment"><div class="comment_headling"><i class="fa fa-comments fa-fw" aria-hidden="true"></i><span> 评论</span></div><div class="vcomment" id="vcomment"></div><script src="https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script><script>var requestSetting = function (from,set) {
+  var from = from
+  var setting = set.split(',').filter(function(item){
+  return from.indexOf(item) > -1
+  });
+  setting = setting.length == 0 ? from :setting;
+  return setting
+}
+
+var guestInfo = requestSetting(['nick','mail','link'],'nick,mail,link')
+var requiredFields = requestSetting(['nick','mail','link'],'nick,mail')
+
+window.valine = new Valine({
+  el:'#vcomment',
+  appId: 'lc8847x3oNmR8dHxovhJ6GsY-gzGzoHsz',
+  appKey: 'LoauVB46UPl7cf05pvfIh0fj',
+  notify: false,
+  verify: false,
+  placeholder: 'Please leave your footprints',
+  avatar: 'monsterid',
+  meta: guestInfo,
+  pageSize: '10',
+  lang: 'zh-CN',
+  recordIP: false,
+  serverURLs: '',
+  emojiCDN: '',
+  emojiMaps: "",
+  enableQQ: true,
+  requiredFields: requiredFields
+});</script></div></article></main><footer id="footer" style="background-image: url(https://cdn.jsdelivr.net/gh/Blosslom1/img@master/cmd/3/head.jpg)" data-type="photo"><div id="footer-wrap"><div class="copyright">&copy;2020 By Blosslom&文韬菌</div><div class="framework-info"><span>驱动 </span><a href="https://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" rel="noopener"><span>Butterfly</span></a></div><div class="footer_custom_text">Chemistry world</div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="阅读模式"></i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i><a class="translate_chn_to_cht" id="translateLink" href="javascript:translatePage();" title="简繁转换" target="_self">繁</a><i class="darkmode fa fa-moon-o" id="darkmode" title="夜间模式"></i></div><div id="rightside-config-show"><div id="rightside_config" title="设置"><i class="fa fa-cog" aria-hidden="true"></i></div><a id="to_comment" href="#post-comment" title="直达评论"><i class="scroll_to_comment fa fa-comments">  </i></a><i class="fa fa-list-ul close" id="mobile-toc-button" title="目录" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="回到顶部" aria-hidden="true"></i></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a href="https://github.com/wzpan/hexo-generator-search" target="_blank" rel="noopener" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css"><script>$(function () {
+  $('span.katex-display').wrap('<div class="katex-wrap"></div>')
+})</script><script id="ribbon_piao" mobile="false" src="/js/third-party/piao.js"></script><script id="canvas_nest" color="0,0,255" opacity="0.7" zIndex="-1" count="50" mobile="false" src="/js/third-party/canvas-nest.js"></script><script src="/js/third-party/activate-power-mode.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+document.body.addEventListener('input', POWERMODE);
+</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@latest/instantpage.min.js" type="module"></script><script src="/js/third-party/ClickShowText.js"></script><script src="/js/search/local-search.js"></script></body></html>

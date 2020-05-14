@@ -1,0 +1,292 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>CMD基础【中】 | 酷盖实验室</title><meta name="description" content="for命令，延迟变量和调入执行文件，一些基础命名"><meta name="keywords" content="cmd"><meta name="author" content="Blosslom&amp;文韬菌,1215057638@qq.com"><meta name="copyright" content="Blosslom&amp;文韬菌"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.png"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="dns-prefetch" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="https://hm.baidu.com"/><link rel="dns-prefetch" href="https://hm.baidu.com"/><link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="crossorigin"/><link rel="dns-prefetch" href="https://fonts.googleapis.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="dns-prefetch" href="//busuanzi.ibruce.info"/><meta name="twitter:card" content="summary"><meta name="twitter:title" content="CMD基础【中】"><meta name="twitter:description" content="for命令，延迟变量和调入执行文件，一些基础命名"><meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/Blosslom1/img@master/cmd/2/head.jpg"><meta property="og:type" content="article"><meta property="og:title" content="CMD基础【中】"><meta property="og:url" content="https://blosslom1.github.io/2020/05/05/CMD%E5%9F%BA%E7%A1%80%E3%80%90%E4%B8%AD%E3%80%91/"><meta property="og:site_name" content="酷盖实验室"><meta property="og:description" content="for命令，延迟变量和调入执行文件，一些基础命名"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/Blosslom1/img@master/cmd/2/head.jpg"><meta property="article:published_time" content="2020-05-05T10:30:50.000Z"><meta property="article:modified_time" content="2020-05-14T11:00:59.436Z"><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><script>var autoChangeMode = '1'
+var t = Cookies.get("theme")
+if (autoChangeMode == '1'){
+  var isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+  var isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches
+  var isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined){
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport){
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour < 9 || hour >= 14
+      isNight ? activateDarkMode() : activateLightMode()
+  }
+  } else if (t == 'light') activateLightMode()
+  else activateDarkMode()
+
+} else if (autoChangeMode == '2'){
+  now = new Date();
+  hour = now.getHours();
+  isNight = hour < 6 || hour >= 18
+  if(t === undefined) isNight? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode() 
+} else {
+  if ( t == 'dark' ) activateDarkMode()
+  else if ( t == 'light') activateLightMode()
+}
+
+function activateDarkMode(){
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+    document.querySelector('meta[name="theme-color"]').setAttribute('content','#000')
+  }
+}
+function activateLightMode(){
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+  document.querySelector('meta[name="theme-color"]').setAttribute('content','#fff')
+  }
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="canonical" href="https://blosslom1.github.io/2020/05/05/CMD%E5%9F%BA%E7%A1%80%E3%80%90%E4%B8%AD%E3%80%91/"><link rel="prev" title="CMD基础【下】" href="https://blosslom1.github.io/2020/05/06/CMD%E5%9F%BA%E7%A1%80%E3%80%90%E4%B8%8B%E3%80%91/"><link rel="next" title="CMD基础【上】" href="https://blosslom1.github.io/2020/05/03/CMD%E5%9F%BA%E7%A1%80%E3%80%90%E4%B8%8A%E3%80%91/"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?563f0966f2e6b9657febdcd266f82b0c";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容:${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"cookieDomain":"https://xxx/","msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: true,
+  copyright: undefined,
+  ClickShowText: {"text":"富強,民主,文明,和諧,自由,平等,公正,法治,愛國,敬業,誠信,友善","fontSize":"15px"},
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  baiduPush: false,
+  highlightCopy: true,
+  highlightLang: true,
+  highlightShrink: 'false',
+  isFontAwesomeV5: false,
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: true
+  
+}</script><script>var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isSidebar: true  
+  }</script><noscript><style>
+#page-header {
+  opacity: 1
+}
+.justified-gallery img{
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 4.2.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/head.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">8</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">6</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">5</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page"><i class="fa-fw fa fa-list" aria-hidden="true"></i><span> 其他</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page" href="/movie/"><i class="fa-fw fa fa-film"></i><span> 视频</span></a></li></ul></div></div></div></div><i class="fa fa-arrow-right on" id="toggle-sidebar" aria-hidden="true">     </i><div id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#神奇的for"><span class="toc-number">1.</span> <span class="toc-text"> 神奇的for</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#无参数for"><span class="toc-number">1.0.1.</span> <span class="toc-text"> 无参数for</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#l参数"><span class="toc-number">1.0.2.</span> <span class="toc-text"> L参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#d参数"><span class="toc-number">1.0.3.</span> <span class="toc-text"> &#x2F;d参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#r-参数"><span class="toc-number">1.0.4.</span> <span class="toc-text"> &#x2F;r 参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#f参数"><span class="toc-number">1.0.5.</span> <span class="toc-text"> &#x2F;f参数</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#变量请你走慢点"><span class="toc-number">2.</span> <span class="toc-text"> 变量请你走慢点</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#调入执行文件"><span class="toc-number">3.</span> <span class="toc-text"> 调入执行文件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#网络调试命令之ping命令"><span class="toc-number">4.</span> <span class="toc-text"> 网络调试命令之ping命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ping命令"><span class="toc-number">4.0.1.</span> <span class="toc-text"> Ping命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#-a参数"><span class="toc-number">4.0.2.</span> <span class="toc-text"> -a参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#-l参数"><span class="toc-number">4.0.3.</span> <span class="toc-text"> -l参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#-t参数"><span class="toc-number">4.0.4.</span> <span class="toc-text"> -t参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#-n参数"><span class="toc-number">4.0.5.</span> <span class="toc-text"> -n参数</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#网络查看命令之netstat"><span class="toc-number">5.</span> <span class="toc-text"> 网络查看命令之netstat</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#netstat-an"><span class="toc-number">5.0.1.</span> <span class="toc-text"> Netstat -an</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#netstat-ano"><span class="toc-number">5.0.2.</span> <span class="toc-text"> Netstat -ano</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#netstat-e"><span class="toc-number">5.0.3.</span> <span class="toc-text"> Netstat -e</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#netstat-anb"><span class="toc-number">5.0.4.</span> <span class="toc-text"> Netstat -anb</span></a></li></ol></li></ol></li></ol></div></div></div><div id="body-wrap"><div id="web_bg" data-type="color"></div><div class="post-bg" id="nav" style="background-image: url(https://cdn.jsdelivr.net/gh/Blosslom1/img@master/cmd/2/head.jpg)"><div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">酷盖实验室</a></span><span class="pull_right menus"><div id="search_button"><a class="site-page social-icon search"><i class="fa fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page"><i class="fa-fw fa fa-list" aria-hidden="true"></i><span> 其他</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page" href="/movie/"><i class="fa-fw fa fa-film"></i><span> 视频</span></a></li></ul></div></div><span class="toggle-menu close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span></span></div><div id="post-info"><div id="post-title"><div class="posttitle">CMD基础【中】</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date"><span class="post-meta__date-created" title="发表于 2020-05-05 18:30:50"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2020-05-05</span><span class="post-meta__separator">|</span><span class="post-meta__date-updated" title="更新于 2020-05-14 19:00:59"><i class="fa fa-history" aria-hidden="true"></i> 更新于 2020-05-14</span></time><span class="post-meta__categories"><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">计算机</a></span></div><div class="meta-secondline"> <span class="post-meta-wordcount"><i class="post-meta__icon fa fa-file-word-o" aria-hidden="true"></i><span>字数总计:</span><span class="word-count">3.5k</span><span class="post-meta__separator">|</span><i class="post-meta__icon fa fa-clock-o" aria-hidden="true"></i><span>阅读时长: 11 分钟</span></span></div><div class="meta-thirdline"><span class="post-meta-pv-cv"><span class="post-meta__separator">|</span><i class="fa fa-eye post-meta__icon" aria-hidden="true"> </i><span>阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-commentcount"><span class="post-meta__separator">|</span><i class="post-meta__icon fa fa-comment-o" aria-hidden="true"></i><span>评论数:</span><a href="/2020/05/05/CMD%E5%9F%BA%E7%A1%80%E3%80%90%E4%B8%AD%E3%80%91/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count comment-count" data-xid="/2020/05/05/CMD%E5%9F%BA%E7%A1%80%E3%80%90%E4%B8%AD%E3%80%91/" itemprop="commentCount"></span></a></span></div></div></div></div><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><h1 id="神奇的for"><a class="markdownIt-Anchor" href="#神奇的for"></a> <strong>神奇的for</strong></h1>
+<p>Bat编程里的循环结构还是挺奇怪的，我觉得和其他语言大同小异。因为他的几个参数让for命令显的很神奇。</p>
+<p>for /参数 %变量 in (集) do 命令</p>
+<p>（注：上面除中文的以外，其余的是按它的格式要求书写的,大小写都行）</p>
+<p>参数：FOR分四种参数 D L R F，并且有的参数还可附加另外的选项下面会分别介绍</p>
+<p>变量：(记住如果是在批处理中使用for命令时，变量前的%需改为%%)这个变量名是由单个字母组成且区分大小写（原帮助是这么说的，实际运用中用单个数字作为变量名试过证明也可行），如%B和%b代表的是不同的变量。</p>
+<p>FOR命令会在每次循环中，把in (集)中读取到的值赋于这个变量，以便其后的命令中引用。</p>
+<p>集：由系列文件、字符串或由命令产生的内容形成的集合（当然可用通配符 * ？，还可引用环境变量），FOR命令是按一定顺序和规律分次读取集中内容，赋值给变量，并执行do后的命令，进行循环下一轮，直至集中内容读取完毕，而括号是格式必须的(in到后面括号之间要有空格)。</p>
+<p>命令：可以是任何合格的DOS命令或外部可被DOS调用的程序，且可采用括号把多条命令括起来，在一次循环中执行。</p>
+<p>附注：由于一些目录或文件名可能会有空格，所以很多时候集里和命令里往往需要用英文引号括起来(但有时引号里的内容可能会被认为是字符串)表示是一整体，下面开始的有些例中为简捷起见，忽略文件名或目录名带空格这种情况。</p>
+<p>现在按参数分类举例解释其用法：</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQnFAS.jpg" alt="YQnFAS.jpg" /></p>
+<h3 id="无参数for"><a class="markdownIt-Anchor" href="#无参数for"></a> 无参数for</h3>
+<p>没有参数的for就相当于一个遍历的作用，使用相当简单</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQnC0f.jpg" alt="YQnC0f.jpg" /></p>
+<p>语句中%i是一个变量用于保存括号里的内容，do后面的内容都是执行体，执行了@echo %i，循环打印出括号里的内容 (@的作用是关闭回显)</p>
+<p>在记事本编程中%i需要被替换为%%i</p>
+<h3 id="l参数"><a class="markdownIt-Anchor" href="#l参数"></a> L参数</h3>
+<p>L参数是最常用的一个参数，他可以用来计数例如：</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQn9nP.jpg" alt="YQn9nP.jpg" /></p>
+<p>使用参数/l 遍历1-4赋值给i变量并打印出来，括号里的内容（1 1 4）第一个1表示起始数是1，第二个1是表示相隔1,第三个4表示末尾数为4。</p>
+<p>所以程序依次打印出来1 2 3 4</p>
+<h3 id="d参数"><a class="markdownIt-Anchor" href="#d参数"></a> /d参数</h3>
+<p>/d参数可以理解为用来对文件夹操作的参数（据我所知不能寻找文件），例如:</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQnP78.jpg" alt="YQnP78.jpg" /></p>
+<p>使用参数/d 遍历C盘里的所用文件夹赋值给i变量打印出来（@echo是关闭回显，可以试试不加@）</p>
+<p>前面讲到的/l参数是最常使用的参数，还有剩下两个参数没有讲到，因为这些参数对于初学者来说难度比较大，而且前期基本没什么用处。</p>
+<h3 id="r-参数"><a class="markdownIt-Anchor" href="#r-参数"></a> /r 参数</h3>
+<p>for /r [此处可以带有路径] %变量名 in (集) do 命令 解释：[ ]里的内容是可选内容，/r参数的作用是遍历目录，将目录树加上集里的内容赋值给变量名。举个栗子：</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQu0rq.jpg" alt="YQu0rq.jpg" /></p>
+<p>每个路径都会输出并且加上集里的内容，由此可以派生出一个作用，在某个目录树里全部新建文件：</p>
+<p>for /r . %i in (file.txt) do echo. &gt; %i</p>
+<p>上面的语法作用是把当前目录下的目录树全部新建一个file.txt的空文件（请勿轻易尝试）</p>
+<p>除了上面一个作用还可以帮助我们在命令行里检索</p>
+<p>for /r 目录 %i in (目标文件) do if exist %i (echo %i exist) else (echo %i not exit)</p>
+<p>这个命令在交互模式的时会遍历到找到文件为止，最后输出的一个就是目标文件，大致操作如下：</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQuwMn.jpg" alt="YQuwMn.jpg" /></p>
+<p>上面的输出是下面那个命令的结果为了清晰所以把命令放到了下面，可以看出最后一个输出是需要找的图片。</p>
+<h3 id="f参数"><a class="markdownIt-Anchor" href="#f参数"></a> /f参数</h3>
+<p>这个参数的作用是对文件内容的查看，它位于的等级最低使用却是最复杂的一个。个人觉得用处不大</p>
+<p>For /f [“限制条件”] %i in (文件路径) do</p>
+<p>命令的意思是在指定的文件中按照限制条件将内容赋值给i变量，限制条件可有可无</p>
+<p>限制条件语法：</p>
+<p>skip=1 表示文本开始忽略的行数为1 ——忽略几行</p>
+<p>delims= 用什么符号分隔，本例中等号后是空的表示仅用空格来分隔。——用什么来切分</p>
+<p>tokens=1,4 这个等号后的数字表示依次取第几个被分隔的字符串段。但是这个也需要设置变量接收</p>
+<p>下面对文件进行一个操作</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQuU2j.jpg" alt="YQuU2j.jpg" /></p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQuaxs.jpg" alt="YQuaxs.jpg" /></p>
+<p>没有加入任何限制条件，默认空格分隔，输出为第一列的内容</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQuNGQ.jpg" alt="YQuNGQ.jpg" /></p>
+<p>加入skip参数跳过第一行，输入内容如上图所示。</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQuTIO.jpg" alt="YQuTIO.jpg" /></p>
+<p>使用delims=没有使用任何分隔则输出为除了第一行之外的全部内容。</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQuodK.jpg" alt="YQuodK.jpg" /></p>
+<p>使用B为分隔B不算入，将分隔后的1列和2列分别赋值给i,j。（注意i后面是j需要按照这个顺序排列）。</p>
+<p>For命令到此结束，重点掌握/l参数的命令，其余的参数可供娱乐。</p>
+<h1 id="变量请你走慢点"><a class="markdownIt-Anchor" href="#变量请你走慢点"></a> 变量请你走慢点</h1>
+<p>变量延迟是批处理中的一个重点内容，而且这个特性是其他语言不具备的，我开始学习的时候学感觉非常简单，可是等到运用的时候却遇到了大量的问题。</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQKnoT.jpg" alt="YQKnoT.jpg" /></p>
+<p>变量延迟的内容并不多。在cmd环境下：</p>
+<p>cmd /v:on  //开启延迟环境变量</p>
+<p>cmd /v:off  //关闭延迟环境变量</p>
+<p>在批处理中：</p>
+<p>setlocal EnableDelayedExpansion  //开启延迟环境变量</p>
+<p>setlocal DisableDelayedExpansion  //关闭延迟环境变量</p>
+<p>如果想要成为高手必须学好变量延迟，为什么需要变量延迟呢？因为批处理在给变量赋值时并不是读到语句就立刻赋值而是等到下一行再进行赋值，如果我们在同一行改变变量的值，又在同一行输出就出现变量没有被改变的结果。</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQKmwV.jpg" alt="YQKmwV.jpg" /></p>
+<p>上图是没有开启变量延迟的结果，赋值2给a 然后输出a但是结果还是上面的1，如果不解决上面的问题在程序编写中就会遇到很多麻烦，当然我们可以避免，不把赋值和其他命令写在一行。</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQKee0.jpg" alt="YQKee0.jpg" /></p>
+<p>这样可以解决问题，还有另外一种办法，在开头写上setlocal enabledelayedexpansion,这些是在真正编写程序时使用的</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQKVLq.jpg" alt="YQKVLq.jpg" /></p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQKEyn.jpg" alt="YQKEyn.jpg" /></p>
+<p>可以看到输出的结果是2，已经开启了变量延迟。开启变量延迟后调用变量名是需要使用! !进行隔开。</p>
+<p>变量延迟在for语句中显得尤为重要，因为他们总是在一行。</p>
+<p>@echo off</p>
+<p>for /l %%i in (1 1 5) do (set a=%%i &amp; echo %a%)</p>
+<p>pause</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQKNTK.jpg" alt="YQKNTK.jpg" /></p>
+<p>这是由于没有开启变量延迟的结果，echo输出的内容是空，所以打印出ECHO 处于关闭状态。</p>
+<p>@echo off &amp; setlocal enabledelayedexpansion</p>
+<p>for /l %%i in (1 1 5) do (set a=%%i &amp; echo !a!)</p>
+<p>pause<br />
+<img src="https://s1.ax1x.com/2020/05/09/YQKtw6.jpg" alt="YQKtw6.jpg" /></p>
+<p>开启变量延迟后，输出的结果就变成我们正常预计的结果了。</p>
+<h1 id="调入执行文件"><a class="markdownIt-Anchor" href="#调入执行文件"></a> 调入执行文件</h1>
+<p>批处理和其他高级语言一样也有导入其他执行文件的功能</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQMcv9.jpg" alt="YQMcv9.jpg" /></p>
+<p>Call 的作用是在本程序里调用程序，调用bat文件时在本窗口打开，当调用非bat文件时会直接打开这个文件，继续执行下面的命令。</p>
+<p>Start 作用也是调用其他文件，调用bat文件时是另外打开一个窗口运行。</p>
+<p>重点内容是%0这个变量，它表示变量自身举个栗子：</p>
+<p>@echo off &amp; setlocal enabledelayedexpansion</p>
+<p>echo %0</p>
+<p>pause</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQM6gJ.jpg" alt="YQM6gJ.jpg" /></p>
+<p>上图是代码的执行结果，输出了一个bat路径，这个路径正是这个文件的保存路径。</p>
+<p>拓展一下思路，我们可以结合for /r 命令把这个文件复制到所有文件夹</p>
+<p>首先把这个文件复制到一个文件夹中（为了防止把我的D盘每个文件夹都复制）</p>
+<p>@echo off &amp; setlocal enabledelayedexpansion</p>
+<p>for /r . %%i in (复制.bat) do copy %0 %%i &amp; echo 复制到%%i</p>
+<p>pause</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQMy34.jpg" alt="YQMy34.jpg" /></p>
+<p>随便进入一个目录中</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQMsCF.jpg" alt="YQMsCF.jpg" /></p>
+<p>这是最深的一个目录，发现了这个文件。（慎重使用）</p>
+<h1 id="网络调试命令之ping命令"><a class="markdownIt-Anchor" href="#网络调试命令之ping命令"></a> 网络调试命令之ping命令</h1>
+<p>基本的语法形式在之前都已经基本讲完，这一节开始讲解命令。命令大多数情况是在交互模式下运行，但是我们要知道学习的是编程所以命令是可以写入程序的。</p>
+<p>为了方便命令的演示都是在交互模式下展示。</p>
+<h3 id="ping命令"><a class="markdownIt-Anchor" href="#ping命令"></a> Ping命令</h3>
+<p>Ping命令是学习网络最基础的命令，它是基于ICMP协议来发送信息的一个命令，很多时候用来测试网路通断。不过它也不是那么绝对有用的，ping不同就代表这网络不通，这是很多网络从业者的一个误区，有时候ping不通照样可以建立连接，我们只要从数据包的角度思考就可以推出也许是对方的防火墙过滤了ping命令发送的数据包。</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQMC0x.jpg" alt="YQMC0x.jpg" /></p>
+<p>若果我们需要检测自己的网络是否和外网想通我可以直接使用ping不带任何参数ping百度(个人习惯ping百度)。</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQMAhD.jpg" alt="YQMAhD.jpg" /></p>
+<p>正在 Ping <a href="http://www.baidu.com" target="_blank" rel="noopener">www.baidu.com</a> [39.156.66.14] 具有 32 字节的数据:è 这行显示了ping的目标，并且将域名解析成了IP地址</p>
+<p>来自 39.156.66.14 的回复: 字节=32 时间=33ms TTL=51</p>
+<p>来自 39.156.66.14 的回复: 字节=32 时间=42ms TTL=51</p>
+<p>来自 39.156.66.14 的回复: 字节=32 时间=24ms TTL=51</p>
+<p>来自 39.156.66.14 的回复: 字节=32 时间=23ms TTL=51è不带参数默认发送四个数据包，返回信息是这四行展示的内容，字节就是默认发送包的大小（可以通过参数来改），时间就是表面意思，花费的时间越短证明网络越快。TTL值的意思比较复杂，它有一个初始值windows的TTL值是128，linux的TTL值是64，当每经过该一个路由TTL值就减一（为什么减一呢？这是为了防止数据包进入路由死循环造成网络拥堵，具体原因可以百度不做详细介绍），从返回的TTL值我们可以看出来百度服务器的操作系统是linux系统，并且从百度发来的数据包经过了13个路由到达我的电脑。</p>
+<p>39.156.66.14 的 Ping 统计信息:</p>
+<p>数据包: 已发送 = 4，已接收 = 4，丢失 = 0 (0% 丢失)，</p>
+<p>往返行程的估计时间(以毫秒为单位):</p>
+<p>最短 = 23ms，最长 = 42ms，平均 = 30msè这几行是统计信息很好理解</p>
+<h3 id="-a参数"><a class="markdownIt-Anchor" href="#-a参数"></a> -a参数</h3>
+<p>-a参数解析主机名</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQMP76.jpg" alt="YQMP76.jpg" /></p>
+<p>正在 Ping <a href="http://www.a.shifen.com" target="_blank" rel="noopener">www.a.shifen.com</a> [39.156.66.14] 具有 32 字节的数据:è从这行可以看出解析到对方主机名shifen.com其实百度的另一个域名就是<a href="http://www.a.shifen.com" target="_blank" rel="noopener">www.a.shifen.com</a>可以试着访问</p>
+<h3 id="-l参数"><a class="markdownIt-Anchor" href="#-l参数"></a> -l参数</h3>
+<p>自定义发送大小，最大可发送65500字节的数据包，早在几十年前这个参数可以发动DDoS攻击，不过现在这种攻击已经失效了。</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQMFAK.jpg" alt="YQMFAK.jpg" /></p>
+<p>第一个命令发送了65500字节数据包，但是百度拒收了，第二个命令改为500字节的数据包可以发送。</p>
+<h3 id="-t参数"><a class="markdownIt-Anchor" href="#-t参数"></a> -t参数</h3>
+<p>设置为无限发送</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQMktO.jpg" alt="YQMktO.jpg" /></p>
+<p>按下ctrl+c停止发送，如果想要持续判断网络和目标服务器是否能建立稳定连接可以使用这个命令发送一段时间查看丢包率</p>
+<h3 id="-n参数"><a class="markdownIt-Anchor" href="#-n参数"></a> -n参数</h3>
+<p>发送指定数量数据包</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQMV9e.jpg" alt="YQMV9e.jpg" /></p>
+<p>作用和-t差不多，只不过可以自己定义而已。</p>
+<p>Ping命令的基础用法就讲到这里，到后期的进阶文章中会继续讲解。</p>
+<h1 id="网络查看命令之netstat"><a class="markdownIt-Anchor" href="#网络查看命令之netstat"></a> 网络查看命令之netstat</h1>
+<p>Netstat命令是运维人员必备的命令，不管是windows系统还是linux系统，netstat都起到了至关重要的作用</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQQiKs.jpg" alt="YQQiKs.jpg" /></p>
+<p>同样可以使用netstat /?查看帮助信息</p>
+<h3 id="netstat-an"><a class="markdownIt-Anchor" href="#netstat-an"></a> Netstat -an</h3>
+<p>Netstat -a显示所有连接和侦听端口。使用这个命令通常显示非常慢所以会在后面加上一个n参数。</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQQFrn.jpg" alt="YQQFrn.jpg" /></p>
+<p>输出内容逻辑清晰，只讲解一下状态</p>
+<p>LISTENINGè监听状态，在本地地址的端口上监听</p>
+<p>ESTABLISHEDè建立连接状态</p>
+<p>TIME_WAITè等待状态</p>
+<h3 id="netstat-ano"><a class="markdownIt-Anchor" href="#netstat-ano"></a> Netstat -ano</h3>
+<p>显示出PID值可以根据这个查到运行的程序，需要结合后面讲到的tasklist命令。</p>
+<h3 id="netstat-e"><a class="markdownIt-Anchor" href="#netstat-e"></a> Netstat -e</h3>
+<p>显示以太网统计信息</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQQ92Q.jpg" alt="YQQ92Q.jpg" /></p>
+<h3 id="netstat-anb"><a class="markdownIt-Anchor" href="#netstat-anb"></a> Netstat -anb</h3>
+<p>一个组合命令an和前面介绍的一样，b参数是显示出来运行的进程名称</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQQCvj.jpg" alt="YQQCvj.jpg" /></p>
+<p>可以根据这个查出计算机中潜在的木马程序。</p>
+<p>netstat -an | find “445”</p>
+<p>组合命令写在脚本中可以查到是否开启了445端口</p>
+<p>Netstat -an产生的结果通过管道符传给find命令查找含有字符串445的行</p>
+<p><img src="https://s1.ax1x.com/2020/05/09/YQQp8g.jpg" alt="YQQp8g.jpg" /></p>
+<p>可以看到我的电脑开起来了445端口，同理可以验证其他端口是否开启。</p>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:1215057638@qq.com">Blosslom&amp;文韬菌</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://blosslom1.github.io/2020/05/05/CMD%E5%9F%BA%E7%A1%80%E3%80%90%E4%B8%AD%E3%80%91/">https://blosslom1.github.io/2020/05/05/CMD%E5%9F%BA%E7%A1%80%E3%80%90%E4%B8%AD%E3%80%91/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://blosslom1.github.io" target="_blank">酷盖实验室</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/cmd/">cmd</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/Blosslom1/img@master/electrician/head.png" data-sites="facebook,twitter,wechat,weibo,qq,qzone"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"/><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script></div></div><div class="post-reward"><a class="reward-button button--primary button--animated"> <i class="fa fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><img class="post-qr-code__img" src="/img/wechat.jpg" alt="微信"/><div class="post-qr-code__desc">微信</div></li><li class="reward-item"><img class="post-qr-code__img" src="/img/alipay.jpg" alt="支付宝"/><div class="post-qr-code__desc">支付宝</div></li></ul></div></a></div><nav class="pagination_post" id="pagination"><div class="prev-post pull_left"><a href="/2020/05/06/CMD%E5%9F%BA%E7%A1%80%E3%80%90%E4%B8%8B%E3%80%91/"><img class="prev_cover" src="https://cdn.jsdelivr.net/gh/Blosslom1/img@master/cmd/3/head.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">CMD基础【下】</div></div></a></div><div class="next-post pull_right"><a href="/2020/05/03/CMD%E5%9F%BA%E7%A1%80%E3%80%90%E4%B8%8A%E3%80%91/"><img class="next_cover" src="https://cdn.jsdelivr.net/gh/Blosslom1/img@master/cmd/1/head.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">CMD基础【上】</div></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fa fa-fw fa-thumbs-up" aria-hidden="true"></i><span> 相关推荐</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/2020/05/06/CMD基础【下】/" title="CMD基础【下】"><img class="relatedPosts_cover" src="https://cdn.jsdelivr.net/gh/Blosslom1/img@master/cmd/3/head.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-05-06</div><div class="relatedPosts_title">CMD基础【下】</div></div></a></div><div class="relatedPosts_item"><a href="/2020/05/03/CMD基础【上】/" title="CMD基础【上】"><img class="relatedPosts_cover" src="https://cdn.jsdelivr.net/gh/Blosslom1/img@master/cmd/1/head.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-05-03</div><div class="relatedPosts_title">CMD基础【上】</div></div></a></div></div><div class="clear_both"></div></div><hr><div id="post-comment"><div class="comment_headling"><i class="fa fa-comments fa-fw" aria-hidden="true"></i><span> 评论</span></div><div class="vcomment" id="vcomment"></div><script src="https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script><script>var requestSetting = function (from,set) {
+  var from = from
+  var setting = set.split(',').filter(function(item){
+  return from.indexOf(item) > -1
+  });
+  setting = setting.length == 0 ? from :setting;
+  return setting
+}
+
+var guestInfo = requestSetting(['nick','mail','link'],'nick,mail,link')
+var requiredFields = requestSetting(['nick','mail','link'],'nick,mail')
+
+window.valine = new Valine({
+  el:'#vcomment',
+  appId: 'lc8847x3oNmR8dHxovhJ6GsY-gzGzoHsz',
+  appKey: 'LoauVB46UPl7cf05pvfIh0fj',
+  notify: false,
+  verify: false,
+  placeholder: 'Please leave your footprints',
+  avatar: 'monsterid',
+  meta: guestInfo,
+  pageSize: '10',
+  lang: 'zh-CN',
+  recordIP: false,
+  serverURLs: '',
+  emojiCDN: '',
+  emojiMaps: "",
+  enableQQ: true,
+  requiredFields: requiredFields
+});</script></div></article></main><footer id="footer" style="background-image: url(https://cdn.jsdelivr.net/gh/Blosslom1/img@master/cmd/2/head.jpg)" data-type="photo"><div id="footer-wrap"><div class="copyright">&copy;2020 By Blosslom&文韬菌</div><div class="framework-info"><span>驱动 </span><a href="https://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" rel="noopener"><span>Butterfly</span></a></div><div class="footer_custom_text">Chemistry world</div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="阅读模式"></i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i><a class="translate_chn_to_cht" id="translateLink" href="javascript:translatePage();" title="简繁转换" target="_self">繁</a><i class="darkmode fa fa-moon-o" id="darkmode" title="夜间模式"></i></div><div id="rightside-config-show"><div id="rightside_config" title="设置"><i class="fa fa-cog" aria-hidden="true"></i></div><a id="to_comment" href="#post-comment" title="直达评论"><i class="scroll_to_comment fa fa-comments">  </i></a><i class="fa fa-list-ul close" id="mobile-toc-button" title="目录" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="回到顶部" aria-hidden="true"></i></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a href="https://github.com/wzpan/hexo-generator-search" target="_blank" rel="noopener" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css"><script>$(function () {
+  $('span.katex-display').wrap('<div class="katex-wrap"></div>')
+})</script><script id="ribbon_piao" mobile="false" src="/js/third-party/piao.js"></script><script id="canvas_nest" color="0,0,255" opacity="0.7" zIndex="-1" count="50" mobile="false" src="/js/third-party/canvas-nest.js"></script><script src="/js/third-party/activate-power-mode.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+document.body.addEventListener('input', POWERMODE);
+</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@latest/instantpage.min.js" type="module"></script><script src="/js/third-party/ClickShowText.js"></script><script src="/js/search/local-search.js"></script></body></html>
