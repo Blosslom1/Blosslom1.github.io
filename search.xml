@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>无人驾驶方案</title>
+      <link href="/2020/05/21/%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E6%96%B9%E6%A1%88/"/>
+      <url>/2020/05/21/%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6%E6%96%B9%E6%A1%88/</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="无人驾驶"><a class="markdownIt-Anchor" href="#无人驾驶"></a> 无人驾驶</h1><p><strong>概述：无人驾驶是科技发展的趋向，自古衣食住行都是社会发展的重要指标。目前（2020年）这四个重要的指标都在过渡阶段，正值半人工半互联网的交替时期。人工智能必将代替这些人为的重复劳动。</strong></p><p><strong>快递行业已经充斥着大量的伪人工机器人，相对无人驾驶发展要快。无人驾驶是最难攻克的，因为这项技术涉及大量的安全，如何降低安全隐患是主要的研究方向</strong></p><h3 id="设计方案一"><a class="markdownIt-Anchor" href="#设计方案一"></a> 设计方案一</h3><ul><li><p>路灯式辅助方案</p><p>应用场景：在路况复杂的地段，车辆的大小型号不一，会出现大车挡住小车造成其他车辆无法预计的情况，即便车辆四周都有各种传感器，遮挡物后面也只能识别红外线，所以如果想要全方位获取路况需要借助另外的视野，路灯可以做为雷达扫描路况，通过无线网广播形式传递给相应路段的车辆。</p></li><li><p>技术难点</p><ol><li>信号接收问题</li><li>多个信号源重叠问题</li><li>单个路灯辅助范围</li></ol></li><li><p>解决方案</p><p>无</p></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> 物联网 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 人工智能 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>网络通讯&amp;内网穿透</title>
       <link href="/2020/05/15/%E7%BD%91%E7%BB%9C%E9%80%9A%E8%AE%AF/"/>
       <url>/2020/05/15/%E7%BD%91%E7%BB%9C%E9%80%9A%E8%AE%AF/</url>
