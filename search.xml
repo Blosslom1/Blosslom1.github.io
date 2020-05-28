@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>Python【时间库】</title>
+      <link href="/2020/05/28/python%E3%80%90time%E5%BA%93%E3%80%91/"/>
+      <url>/2020/05/28/python%E3%80%90time%E5%BA%93%E3%80%91/</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><p>python里和时间有关的库常用的大概有：time，datetime，calender，schedual等一些库</p><h2 id="time"><a class="markdownIt-Anchor" href="#time"></a> time</h2><p>今天开始更新pyhon的进阶内容，隔了大半年才开始更新，因为一直没有个好的机会来整理python。</p><p>python里和时间有关的库常用的大概有三个：time，datetime，calender。个人觉得time比较用的多。</p><p>time库的东西也不是很多，在终端下查看到的所有方法如下，加粗部分是需要掌握的方法。</p><p>_STRUCT_TM_ITEMS, __doc__, __loader__, __name__, __package__, __spec__, altzone, asctime, <strong>clock</strong>, <strong>ctime</strong>, daylight, get_clock_info, gmtime, <strong>localtime</strong>, mktime, monotonic, monotonic_ns, perf_counter, perf_counter_ns, process_time, process_time_ns, <strong>sleep</strong>, <strong>strftime</strong>, strptime, struct_time, thread_time, thread_time_ns, time, time_ns, timezone, tzname</p><h3 id="clock"><a class="markdownIt-Anchor" href="#clock"></a> clock()</h3><p>该方法是返回从开启程序到调用到clock()的cpu时钟，当我们用的时候会发现它返回的是一串数字,如图所示。</p><p><img src="http://p1.pstatp.com/large/pgc-image/0d11b4b0c1184f6e9514a8ae063f93c8" alt="人生苦短，我用python「time库」" /></p><p>但从这一个图不能理解什么叫从调用程序到执行clock()，我们来对比多组clock()方法，从这几个对比值可以发现，他是一秒一秒增加的。原来这个的意思是从我打开python时开始记录时间，到执行clock()一共用的时间。</p><p><img src="http://p1.pstatp.com/large/pgc-image/ebd8bd8d405444f88d6644057b681eed" alt="人生苦短，我用python「time库」" /></p><p>和clock()很像的还有time()，这个是从1970年一月一日开始计时，我也经过计算确实是49年</p><p><img src="http://p1.pstatp.com/large/pgc-image/b0cda97e5d424f9fbe5ee28270a71ca9" alt="人生苦短，我用python「time库」" /></p><h3 id="ctime"><a class="markdownIt-Anchor" href="#ctime"></a> ctime()</h3><p>将时间戳转化成日期，具体作用在多地方都能碰见，例如CTF题目有使用时间戳加密的，可以使用该函数解密，平时用时间戳加密的js我们爬取内容时也需要转化时间</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line">time.ctime(时间戳)</span><br></pre></td></tr></table></figure><h3 id="localtime"><a class="markdownIt-Anchor" href="#localtime"></a> localtime()</h3><p>localtime()返回的是一个时间元组。上面记录着年，月，日等等不过这个只需要了解，下面有更好用的方法。</p><p><img src="http://p1.pstatp.com/large/pgc-image/119b76cef08243ada651ea5ca672ee30" alt="人生苦短，我用python「time库」" /></p><h3 id="sleep"><a class="markdownIt-Anchor" href="#sleep"></a> sleep()</h3><p>这个方法相当重要，他代表程序休眠后面的单位是秒，例如：time.sleep(2) 代表程序休眠两秒，在无ip代理爬虫中用的相当频繁。</p><h3 id="strftime"><a class="markdownIt-Anchor" href="#strftime"></a> strftime</h3><p>一般都是用这个来打印当前时间，这个使用起来比localtime()方便许多</p><p><img src="http://p3.pstatp.com/large/pgc-image/f78b48ecfd044d6e9bf2a86acaec890a" alt="人生苦短，我用python「time库」" /></p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">two</span><span class="params">()</span>:</span></span><br><span class="line"> now = time.strftime(<span class="string">"%Y.%m.%d.%H.%M.%S"</span>).split(<span class="string">"."</span>)</span><br><span class="line"> print(<span class="string">"&#123;0&#125;年&#123;1&#125;月&#123;2&#125;日 &#123;3&#125;:&#123;4&#125;:&#123;5&#125;"</span>.format(*now))</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">one</span><span class="params">()</span>:</span></span><br><span class="line"> print(<span class="string">"&#123;0&#125;年&#123;1&#125;月&#123;2&#125;日 &#123;3&#125;:&#123;4&#125;:&#123;5&#125;"</span>.format(*(time.strftime(<span class="string">"%Y.%m.%d.%H.%M.%S"</span>).split(<span class="string">"."</span>))))</span><br></pre></td></tr></table></figure><p>这是两种使用方法，经检测执行一百万次two用时较短。</p><p>%Y-&gt;年</p><p>%m-&gt;月</p><p>%d-&gt;日</p><p>%H-&gt;小时</p><p>%M-&gt;分钟</p><p>%S-&gt;秒</p><p>注意大小写</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 计算机 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> python </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Python基础</title>
       <link href="/2020/05/26/python%E5%9F%BA%E7%A1%80/"/>
       <url>/2020/05/26/python%E5%9F%BA%E7%A1%80/</url>
